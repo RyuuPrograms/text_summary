@@ -1,0 +1,255 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: linear-gradient(-45deg, rgba(199, 171, 211, 0.5) 30%, rgba(116, 243, 243, 0.5));
+    background-size: cover;
+    
+}
+
+.nav-up{
+   
+    background: rgba(0, 0, 0, 0.807);
+    border-radius: 8px;
+    padding: 3px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.document-title {
+    background: rgb(64, 183, 222);
+    padding: 8px;
+    cursor: pointer;
+    margin-right: 380px;
+    font-weight: bold;
+    transition: all 0.7s;
+}
+
+.type-format{
+    margin-right: 500px;
+}
+
+.type-format option{
+    font-weight: bold;
+}
+.type-save option{
+    font-weight: bold; 
+}
+
+.document-title:hover,
+.type-format:hover,
+.type-save:hover {
+    background: lightblue;
+}
+
+.type-format,
+.type-save {
+    background: rgb(64, 183, 222);
+    padding: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+.btn {
+    border: 3px;
+    border-radius: 18px;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 18px;
+}
+
+.back, .settings, .help {
+    font-size: 20px;
+    flex: 1;
+    text-align: center;
+    margin: 0 5px;
+}
+
+.btn:hover {
+    background: rgb(171, 221, 238);
+}
+
+.notes-header {
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.notes-textarea-wrapper {
+    position: relative;
+}
+
+
+.wrapper {
+    display: flex;
+    margin: 0 9px;
+}
+
+.document-input,
+.notes-input {
+    margin-right: 9px;
+}
+.side-bar {
+    background: transparent;
+    border-radius: 8px;
+    padding: 13px;
+    width: 10%; 
+}
+
+.side-bar .btn {
+    margin-bottom: 10px;
+}
+
+.document-input {
+    background: rgb(252, 252, 252);
+    width: 270%; 
+    float: left;
+    border-radius: 8px;
+    padding: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    cursor: text;
+    font-size: 20px;
+    text-align: center;
+}
+
+.document-input textarea {
+    width: 100%;
+    height: 518px;
+    border: none;
+    background: transparent;
+    resize: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: none;
+    padding: 10px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+.notes-input {
+    background: rgb(237, 207, 255);
+    width: 20%; 
+    float: right; 
+    border-radius: 8px;
+    padding: 13px;
+    overflow-x: auto; 
+    overflow-y: hidden; 
+    cursor: text;
+    font-size: 20px;
+    margin-left: 620px;
+}
+
+.notes-input textarea {
+    width: 100%; 
+    height: 470px; 
+    border: none; 
+    background: transparent; 
+    resize: none; 
+    overflow-x: hidden; 
+    overflow-y: auto; 
+    outline: none; 
+    padding: 10px; 
+    box-sizing: border-box; 
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit; 
+    padding-left: 13px;
+}
+
+.type-summarize:hover{
+    background: rgb(34, 112, 138);
+}
+.type-summarize{
+    background: rgb(198, 225, 234);
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 6px;
+    margin-top: 20px;
+    
+}
+
+.summary-length{
+    background: rgb(180, 227, 244);
+    color: rgb(0, 0, 0);
+    padding: 6px;
+    border-radius: 50px;
+    transition: all 0.3s;
+    text-align: center;
+    
+}
+.summary-length:hover{
+    background: white;
+}
+
+.original-length{
+    background: rgb(180, 227, 244);
+    color: rgb(0, 0, 0);
+    padding: 6px;
+    border-radius: 50px;
+    transition: all 0.3s;
+    text-align: center;
+    
+}
+.original-length:hover{
+    background: white;
+}
+
+
+.research-format textarea {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    height: 518px; 
+    resize: vertical;
+    box-sizing: border-box;
+    font-size: 20px !important;
+    line-height: 1.6;
+    text-indent: 350px;
+    
+}
+
+.essay-format textarea{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    height: 518px; 
+    resize: vertical;
+    box-sizing: border-box;
+    font-size: 20px !important;
+    line-height: 1.4; 
+    text-indent: 38px;
+
+}
+
+.business-format textarea{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    height: 518px; 
+    resize: vertical;
+    box-sizing: border-box;
+
+    line-height: 38px;
+    font-size: 20px;
+    font-style: normal;
+}
+
+.right-format textarea {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    height: 518px; 
+    resize: vertical;
+    box-sizing: border-box;
+    font-size: 20px !important;
+    text-align: right;
+    font-style: normal;
+}

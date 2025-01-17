@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Documents</title>
+    <link rel="stylesheet" href="/static/Recent_Documents.css">
+    <style>
+        .document:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .document:hover h2 {
+            color: #ff7f50;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="saved">Saved Documents</h1>
+    <div class="documents">
+        {% for document in documents %}
+        <div class="document">
+            <h2> Title: {{ document[0].split('.')[0] }} </h2>
+            <p> Context: </p>
+            <p>{{ document[1] }}</p>
+        </div>
+        {% endfor %}
+        
+    </div>
+</body>
+</html>

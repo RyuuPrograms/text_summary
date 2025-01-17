@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoginForm</title>
+    <link rel="stylesheet" href="/static/register.css">
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="background">
+    <div class="wrapper">
+        <div id="register-form" class="register-form">
+            <h2>REGISTER</h2>
+            <form method="POST" action="/register">
+                <div class="field input-box">
+                    <input type="text" name="username" id="username" autocomplete="off" required>
+                    <label for="username">Username</label>
+                </div>
+                <div class="field input-box">
+                    <input type="email" name="email" id="email" autocomplete="off" required>
+                    <label for="email">Email</label>
+                </div>
+                <div class="field input-box">
+                    <input type="password" name="password" id="password" autocomplete="off" required>
+                    <label for="password">Password</label>
+                </div>
+                <div class="field">
+                    <input type="submit" class="btn" value="Register">
+                </div>
+                <div class="register-login">
+                    <p>Already have an account? <a href="/" class="login-link">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="photo">
+        <img src="" id="image">
+    </div>
+
+    <h2 class="aboutus">About Us</h2>
+
+    <div class="social-media">
+        <div class="button">
+          <div class="icons">
+            <i class="fa-brands fa-square-facebook"></i>
+          </div>
+          <span>Facebook</span>
+        </div>
+      
+        <div class="button">
+          <div class="icons">
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+          <span>Email</span>
+        </div>
+      
+        <div class="button">
+          <div class="icons">
+            <i class="fa-brands fa-facebook-messenger"></i>
+          </div>
+          <span>Messenger</span>
+        </div>
+      </div>
+
+    </div>
+    
+        <script type="text/javascript">
+            let image = document.getElementById("image");
+            let images = ["/static/img1.jpg", "/static/img2.jpg", "/static/img3.jpg", "/static/img4.jpg", "/static/img5.jpg",];
+            setInterval(function(){
+                let rnd = Math.floor(Math.random()*images.length);
+                image.src = images[rnd];            
+            },800);
+        </script>
+
+<script>
+    function redirectToUserPage() {
+        window.location.href = "Userpage.html";
+    }
+</script>
+
+    <script src="/static/Homescript.js"></script>
+    
+    
+    
+</body>
+</html>

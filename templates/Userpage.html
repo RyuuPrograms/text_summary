@@ -1,0 +1,219 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LoginForm</title>
+        <link rel="stylesheet" href="/static/Userstyle.css">
+        <link rel="shortcut icon" href="" type="image/x-icon">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        
+    </head>
+    <body>
+        <input type="checkbox" id="check">
+        <label for="check">
+            <i class="fa-solid fa-bars" id="btn"></i>
+            <i class="fa-solid fa-xmark" id="cancel"></i>
+        </label>
+        <div class="sidebar">
+            <header>Menu</header>
+            <ul>
+                <li><a href="#homepage"><i class="fa-solid fa-house"></i>HOMEPAGE</a></li>
+                <li><a href="#myaccount"><i class="fa-solid fa-person"></i>MY ACCOUNT</a></li>
+                <li><a href="#upgrade"><i class="fa-solid fa-arrow-up"></i>UPGRADE</a></li>
+                <li><a href="#trashbin"><i class="fa-solid fa-trash"></i>TRASH BIN</a></li>
+                <li><a href="#settings"><i class="fa-solid fa-gear"></i>SETTINGS</a></li>
+                <li><a href="#help"><i class="fa-solid fa-question helps"></i>HELP</a></li>
+                <li>
+                    <form action="{{ url_for('logout') }}" method="POST">
+                        <button type="submit" class="sidebar-link" style="font-size: 23px;"><i class="fa-solid fa-right-from-bracket"></i>LOGOUT</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="content">
+            <section id="homepage">
+                <div class="search">
+                    <span class="search"></span>
+                    <input class="search-input" type="search" placeholder="SEARCH...">
+                </div>
+                <h2 class="recent" style="color: rgb(51, 49, 49);">Recent Works</h2>
+                <div class="container">
+                    <div class="files">
+                        <form method="POST" action="/Document">
+                        <button class="new-document" type="submit">
+                        <span class="icon"></span>
+                        <div class="text">
+                        <span style="color: rgb(51, 49, 49);">NEW DOCUMENT</span>
+                        </div>
+                    </button>
+                    </form>
+                    <form id="documentForm" action="{{ url_for('view_document') }}" method="POST">
+                        <div class="documents">
+                            {% for document in documents %}
+                                {% if loop.index == 1 %}
+                                    <button type="button" class="document" onclick="submitDocumentForm('{{ document.document_title }}', '{{ document.document_text }}')" style="font-size: 15px;">
+                                        SAVED DOCUMENTS
+                                    </button>
+                                    <input type="hidden" id="documentTitle" name="document_title" value="{{ document.document_title }}">
+                                    <input type="hidden" id="documentText" name="document_text" value="{{ document.document_text }}">
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </section>
+            <section id="myaccount">
+                <div class="rightbox">
+                    <div class="profile">
+                        {% if username %}
+                        <form action="{{ url_for('update_profile') }}" method="POST">
+                            <h1>Personal Info</h1>
+                            <h2>Full Name</h2>
+                            <input type="text" class="input" name="fullname" value="{{ session['fullname'] }}">
+                            <h2>Username</h2>
+                            <input type="text" class="input" name="username" value="{{ session['username'] }}" >
+                            <h2>Birthday</h2>
+                            <input type="text" class="input" name="birthday" value="{{ session['birthday'] }}">
+                            <h2>Gender</h2>
+                            <input type="text" class="input" name="gender" value="{{ session['gender'] }}">
+                            <h2>Email</h2>
+                            <input type="text" class="input" name="email" value="{{ session['email'] }}">
+                            <button type="submit" class="btn">Save Changes</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+            <section id="upgrade">
+                <a href="#" class="click">Upgrade Subscription</a>
+                <div class="popupbox">
+                    <i class="fa-solid fa-circle-arrow-up"></i>
+                    <h1>Do you wish to Upgrade?</h1>
+                    <label>500 php Only</label>
+                    <div class="btns">
+                        <a href="#" class="btn1">Cancel Process</a>
+                        <a href="#" class="btn2">Upgrade</a>
+                    </div>
+                </div>
+            </section>
+            <section id="trashbin">
+                <div class="profile">
+                <h1>Trash Bin</h1>
+            </div>
+            </section>
+            <section id="settings">
+                <div class="rightbox">
+                    <div class="profile">
+                        {% if username %}
+                        <form action="{{ url_for('change_password') }}" method="POST">
+                            <h1 class="settingstxt">Settings</h1>
+                            <h2 class="changetxt">Change Password</h2>
+                            <input type="password" class="input" name="old_password" placeholder="Old Password">
+                            <input type="password" class="input" name="new_password" placeholder="New Password">
+                            <input type="password" class="input" name="confirm_password" placeholder="Confirm New Password">
+                            <button type="submit" class="btn">Save Changes</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+
+            <section id="help">
+                <div class="up">
+                    <h1>SwiftSummary</h1>
+                </div>
+                <div class="mid">
+                    <div class="box">
+                        <h2>Getting Started</h2>
+                        <p>Sign up quickly and easily to start using SwiftSummary.</p>
+                        <p>Discover our tools for summarizing and formatting your documents.</p>
+                    </div>
+                    <div class="box">
+                        <h2>Summarizing Documents</h2>
+                        <p>Upload your document and generate a summary in a few simple steps.</p>
+                        <p>Make your summaries clear and concise with our expert advice.</p>
+                    </div>
+                    <div class="box">
+                        <h2>Formatting Assistance</h2>
+                        <p>Learn how to apply professional formatting to your documents.</p>
+                        <p>Choose the right format for research essays, business reports, and more.</p>
+                    </div>
+                    <div class="box">
+                        <h2>Account Management</h2>
+                        <p>Change your password, update personal information, and manage your subscription.</p>
+                        <p>Ensure your account is secure with our privacy settings.</p>
+                    </div>
+                    <div class="box">
+                        <h2>Troubleshooting</h2>
+                        <p>Find solutions to frequent problems like file upload errors and formatting issues.</p>
+                        <p>Get in touch with our support team for further assistance.</p>
+                    </div>
+                    <div class="box">
+                        <h2>Contact Us</h2>
+                        <p>Reach our team via chat or email at support@swiftsummary.com for personalized help.</p>
+                        <p>Share your thoughts to help us improve SwiftSummary.</p>
+                    </div>
+                    <div class="box">
+                        <h2>Tutorials and Resources</h2>
+                        <p>Watch tutorials to learn how to use SwiftSummary efficiently.</p>
+                        <p>Access our library for best practices in summarizing and formatting documents.</p>
+                    </div>
+                </div>
+            </section>
+            
+            
+        </div>
+
+        <script>
+            function redirectToLogin() {
+                window.location.replace("Login.html"); 
+            }
+            function redirectToDocument(){
+                window.location.replace("Document.html");
+            }
+            function redirectToDocument1(){
+                window.location.replace("Document1.html");
+            }
+
+        </script>
+
+    <script>
+    function submitDocumentForm(title, text) {
+        document.getElementById('documentTitle').value = title;
+        document.getElementById('documentText').value = text;
+        document.getElementById('documentForm').submit();
+    }
+</script>
+
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.click').click(function(){
+                $('.popupbox').css({
+                    "opacity":"1", "pointer-events":"auto"
+                });
+            });
+            $('.btn1').click(function(){
+                $('.popupbox').css({
+                    "opacity":"0", "pointer-events":"none"
+                });
+            });
+            $('.btn2').click(function(){
+                $('.popupbox').css({
+                    "opacity":"0", "pointer-events":"none"
+                });
+                alert("Your account is successfully upgraded!");
+                $('.click').text("Upgraded");
+            });
+        });
+    </script>
+        <script src="/static/Userscript.js"></script>
+        
+    </body>
+    </html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/Document.css">
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+   
+    <div class="nav-up"> 
+            <input type="text" id="filename" name="document_title" class="document-title" placeholder="DOCUMENT TITLE" value="{{ document_title }}">
+            <select id="formatSelect" class="type-format">
+                <option value="format">TYPE OF FORMAT</option>
+                <option value="format1">Research Paper Format</option>
+                <option value="format2">Essay Format</option>
+                <option value="format3">Business Letter Format</option>
+                <option value="format4">Right Text Format</option>
+            </select>
+                <button class="type-save" id="save" type="button">Save</button>
+            <input type="file" id="fileInput" style="display: none;" accept=".txt,.doc,.docx,.pdf">
+            <button class="type-save" id="download" type="submit">Download</button>
+    </div>
+    
+    <div class="wrapper">
+        <div class="side-bar">
+            <button class="btn" onclick="window.location.href='/Userpage'"><i class="fa-solid fa-backward back"></i></button>
+            <button class="btn" onclick="redirectToSettings()"><i class="fa-solid fa-gear settings"></i></button>
+            <button class="btn" onclick="redirectToSettings()"><i class="fa-solid fa-circle-exclamation help"></i></button>
+        </div>
+        <form action="/analyze" method="POST" enctype="multipart/form-data" id="uploadForm">
+            <input type="hidden" id="filename" name="document_title" value="{{ document_title }}">
+            <div id="documentWrapper" class="document-input">
+                <textarea class="documentInput" name="rawtext" id="text" placeholder="DRAG YOUR TEXT HERE...">{{ original_txt }}</textarea>
+                <div class="original-length">
+                    <p>{{ len_orig_txt }} Words</p>
+                </div>
+                <input type="file" id="fileInput" name="file" style="display: none;">
+                <button class="type-summarize" id="uploadButton" type="button">UPLOAD FILE</button>
+                <button class="type-summarize" type="submit">SUMMARIZE</button>
+            </div>
+        </form>
+        
+        <div class="notes-input">
+            <div class="notes-header">NOTES</div>
+            <div class="notes-textarea-wrapper">
+                <textarea id="noteInput" class="notes-textarea">{{summary}}</textarea>
+                <div class="summary-length">
+                    <p>{{len_summary}} Words</p>
+                </div>
+                <ul id="notesList" class="notes-list"></ul>
+            </div>
+        </div>
+    </div>
+            
+    <script>
+        function redirectToUserPage() {
+            window.location.replace("Userpage.html");
+        }
+        function redirectToSettings() {
+            window.location.href = '/Userpage#settings';
+        }
+    </script>
+
+<script>
+    document.getElementById('save').addEventListener('click', function() {
+        var documentTitle = document.getElementById('filename').value;
+        var documentText = document.getElementById('text').value;
+    
+        var formData = new FormData();
+        formData.append('document_title', documentTitle);
+        formData.append('rawtext', documentText);
+    
+        fetch('/save', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/Userpage';
+            } else {
+                console.error('Error saving document:', response.statusText);
+                alert('Error occurred while saving document. Please try again later.');
+            }
+        })
+        .catch(error => {
+            console.error('Error saving document:', error);
+            alert('Error occurred while saving document. Please try again later.');
+        });
+    });
+    </script>
+
+<script>
+    document.getElementById('uploadButton').addEventListener('click', function() {
+        document.getElementById('fileInput').click();
+    });
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    
+    if (file) {
+       {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const text = e.target.result;
+                document.getElementById('text').value = text;
+            };
+            reader.readAsText(file);
+        }
+    }
+});
+</script>
+
+    <script type="text/javascript">
+        function downloadFile(filename, content) {
+            const notesContent = document.getElementById('noteInput').value;
+            const combinedContent = content + '\n\n\n\n\n' + notesContent;
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+    
+            let topMargin = 10;
+            let leftMargin = 10;
+            let textWidth = 190; 
+            let fontSize = 12;
+    
+            switch (document.getElementById('formatSelect').value) {
+                case 'format1': // Research Paper Format
+                    topMargin = 20;
+                    leftMargin = 20;
+                    textWidth = 170;
+                    fontSize = 11;
+                    break;
+                case 'format2': // Essay Format
+                    topMargin = 15;
+                    leftMargin = 15;
+                    textWidth = 170;
+                    fontSize = 12;
+                    break;
+                case 'format3': // Business Letter Format
+                    topMargin = 25;
+                    leftMargin = 25;
+                    textWidth = 160;
+                    fontSize = 12;
+                    break;
+                case 'format4': // Right Text Format
+                    topMargin = 10;
+                    leftMargin = 100;
+                    textWidth = 100;
+                    fontSize = 12;
+                    break;
+                default: // Default format
+                    break;
+            }
+    
+            const lines = doc.splitTextToSize(combinedContent, textWidth);
+            
+            let y = topMargin; 
+            for (let i = 0; i < lines.length; i++) {
+                if (y > 250) { 
+                    doc.addPage();
+                    y = topMargin;
+                }
+                doc.text(leftMargin, y, lines[i]);
+                y += fontSize / 2; 
+            }
+    
+            if (filename.endsWith('.pdf')) {
+                doc.save(filename);
+            } else if (filename.endsWith('.docx')) {
+                const element = document.createElement('a');
+                const blob = new Blob([combinedContent], { type: 'application/msword' });
+                const fileUrl = URL.createObjectURL(blob);
+    
+                element.setAttribute('href', fileUrl);
+                element.setAttribute('download', filename);
+                element.style.display = "none";
+    
+                document.body.appendChild(element);
+                element.click();
+                document.body.removeChild(element);
+            } else {
+                const element = document.createElement('a');
+                const blob = new Blob([combinedContent], { type: 'plain/text' });
+                const fileUrl = URL.createObjectURL(blob);
+    
+                element.setAttribute('href', fileUrl);
+                element.setAttribute('download', filename);
+                element.style.display = "none";
+    
+                document.body.appendChild(element);
+                element.click();
+                document.body.removeChild(element);
+            }
+        }
+    
+        document.getElementById('download').addEventListener('click', e => {
+            const filename = document.getElementById('filename').value;
+            const content = document.getElementById('text').value;
+    
+            if (filename.trim() !== '' && content.trim() !== '') {
+                downloadFile(filename, content);
+            } else {
+                alert("Please provide a filename and content to download.");
+            }
+        });
+    </script>
+
+<script>
+    var formatSelect = document.getElementById("formatSelect");
+    var documentWrapper = document.getElementById("documentWrapper");
+    var documentInput = document.getElementById("text");
+
+    formatSelect.addEventListener("change", function() {
+        var selectedFormat = formatSelect.value;
+
+        switch (selectedFormat) {
+            case "format":
+                documentWrapper.className = "automatic-format document-input";
+                break;
+            case "format1":
+                documentWrapper.className = "research-format document-input";
+                break;
+            case "format2":
+                documentWrapper.className = "essay-format document-input";
+                break;
+            case "format3":
+                documentWrapper.className = "business-format document-input";
+                break;
+            case "format4":
+                documentWrapper.className = "right-format document-input";
+                break;
+                
+            default:
+                documentWrapper.className = "document-input"; 
+                documentInput.style.fontSize = "20px";
+                documentInput.style.fontSize = "inherit"; 
+                break;
+        }
+    });
+
+    document.getElementById("documentInput").addEventListener("keydown", function(e) {
+        if (e.key === "Enter" && e.ctrlKey) { 
+            e.preventDefault(); 
+            var start = this.selectionStart;
+            var end = this.selectionEnd;
+            var indentation = "\n       "; 
+            this.value = this.value.substring(0, start) + indentation + this.value.substring(end);
+            this.selectionStart = this.selectionEnd = start + indentation.length;
+        } else if (e.key === "Enter") { 
+            var cursorPosition = this.selectionStart;
+            var prevChar = this.value.substring(cursorPosition - 1, cursorPosition);
+            if (prevChar === "\n") {
+                var indentation = "       "; 
+                this.value = this.value.substring(0, cursorPosition) + indentation + this.value.substring(cursorPosition);
+                this.selectionStart = this.selectionEnd = cursorPosition + indentation.length;
+            }
+        }
+    });
+</script>
+
+<script src="/static/Documentscript.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/6.1.0/docx.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+
+</body>
+</html>
