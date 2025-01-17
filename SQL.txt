@@ -1,0 +1,15 @@
+CREATE TABLE tbl_users(id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(50) NOT NULL,
+email VARCHAR(50) NOT NULL,
+password VARCHAR(50) NOT NULL,
+fullname VARCHAR(50) NOT NULL,
+birthday VARCHAR(50) NOT NULL,
+gender VARCHAR(50) NOT NULL);
+
+CREATE TABLE user_documents (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    document_title VARCHAR(255) NOT NULL,
+    document_text TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES tbl_users(id) ON DELETE CASCADE
+)
